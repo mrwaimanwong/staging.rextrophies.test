@@ -1,0 +1,50 @@
+/**
+* All of the CSS for your admin-specific functionality should be
+* included in this file.
+*/
+.omodal-body  table thead td:first-child,.omodal-body  table tbody td:first-child{
+  display: none;
+}
+
+div.omodal-content{
+  width: fit-content;
+}
+
+.table-fixed-layout{
+  table-layout: auto !important;
+}
+
+.o-metabox-container input[type=number],
+.o-metabox-container input[type=text],
+.o-metabox-container textarea,
+.o-metabox-container select{
+  width: fit-content !important;
+}
+
+table.striped.custom_multi_views_text_top.widefat.repeatable-fields-table tr td input[type=number],
+table.striped.custom_multi_views_text_left.widefat.repeatable-fields-table tr td input[type=number],
+table.striped.custom_multi_views_text_rotation.widefat.repeatable-fields-table tr td input[type=number],
+table.striped.custom_multi_views_text_font_size.widefat.repeatable-fields-table tr td input[type=number],
+table.striped.custom_multi_views_text_size.widefat.repeatable-fields-table tr td input[type=number],
+table.striped.custom_multi_views_text_prices.widefat.repeatable-fields-table tr td input[type=number]{
+  width: 50px !important;
+}
+
+.font_style_table{
+    width: 100%;
+    border: 1px solid #DFD8D8;
+    margin-top: 10px;
+    border-spacing: 0;
+}
+.font_style_table thead{
+    border-bottom:1px solid #DFD8D8;
+}
+.font_style_table th{
+    width: 33%;
+    padding: 8px 0px;
+    border-bottom: 1px solid #DFD8D8;
+    border-right: 1px solid #DFD8D8;
+}
+td[id ^="file_data"]{
+    text-align:center;
+}

@@ -1,0 +1,22 @@
+Version 2.2.3 - August 23th, 2018
+- Fixed issue : The bug relative to display the text option when multiview is enabled
+
+Version 2.2.2 - July 16th, 2018
+- Added the possibility to display or hide the font selector per configurator
+- Added the possibility to display or hide color selector per configurator
+
+Version 2.2.1 - June 29th, 2018
+- Added the color name in tooltip
+
+Version 2.2 - Mai 29th, 2018
+- Added the ability to see the color of the text in the cart
+- Added the ability to add custom fonts
+
+Version 2.1 - Mai 02th, 2018
+- Added the compatibility feature of the addon with the multiviews add-on
+- Added ability to select a text option in the conditional rules
+- Added ability to show/hide color selector
+- Added ability to show/hide font selector
+
+Version 2.0 - March 23rd, 2018
+- Added the tooltip filter

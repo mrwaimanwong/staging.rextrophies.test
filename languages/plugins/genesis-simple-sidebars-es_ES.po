@@ -1,0 +1,169 @@
+# Translation of Plugins - Genesis Simple Sidebars - Stable (latest release) in Spanish (Spain)
+# This file is distributed under the same license as the Plugins - Genesis Simple Sidebars - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2018-09-09 16:57:07+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: es\n"
+"Project-Id-Version: Plugins - Genesis Simple Sidebars - Stable (latest release)\n"
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
+msgstr "http://www.studiopress.com/"
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr "StudioPress"
+
+#: includes/views/term-edit-sidebar-form.php:8
+msgid "Header Right"
+msgstr "Cabecera derecha"
+
+#: includes/deprecated.php:61
+msgid "dynamic_sidebar() with sidebars_widget filter"
+msgstr "dynamic_sidebar() con el filtro sidebars_widget "
+
+#: genesis-simple-sidebars.php:97
+msgid "Genesis Simple Sidebars requires WordPress %s and Genesis %s, or greater. Please %s the latest version of <a href=\"%s\" target=\"_blank\">Genesis</a> to use this plugin."
+msgstr "Genesis Simple Sidebars requiere WordPress %s y Genesis %s, o superiores. Por favor %s la última versión de <a href=\"%s\" target=\"_blank\">Genesis</a> para utilizar este plugin."
+
+#: genesis-simple-sidebars.php:95
+msgid "install and activate"
+msgstr "instalar y activar"
+
+#. Description of the plugin/theme
+msgid "Genesis Simple Sidebars allows you to easily create and use new sidebar widget areas."
+msgstr "Genesis Simple Sidebars te permite crear y usar nuevos widgets para tu barra lateral."
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.studiopress.com/plugins/simple-sidebars"
+msgstr "http://www.studiopress.com/plugins/simple-sidebars"
+
+#. Plugin Name of the plugin/theme
+msgid "Genesis Simple Sidebars"
+msgstr "Genesis Simple Sidebars"
+
+#: includes/views/admin-main.php:55
+msgid "The unique ID is used to register the sidebar widget area"
+msgstr "El identificador único se utiliza para registrar el widget de la barra lateral."
+
+#: includes/views/admin-main.php:41 includes/views/admin-main.php:63
+msgid "Add New Sidebar"
+msgstr "Añadir nueva barra lateral"
+
+#: includes/views/admin-main.php:8
+msgid "Current Sidebars"
+msgstr "Barras laterales actuales"
+
+#: includes/views/admin-edit.php:38
+msgid "Update"
+msgstr "Actualizar"
+
+#: includes/views/admin-edit.php:32 includes/views/admin-main.php:14
+#: includes/views/admin-main.php:22 includes/views/admin-main.php:59
+msgid "Description"
+msgstr "Descripción"
+
+#: includes/views/admin-edit.php:28
+msgid "The unique ID is used to register the sidebar widget area (cannot be changed)"
+msgstr "El identificador único se utiliza para registrar el widget de la barra lateral. (no puede ser modificado),"
+
+#: includes/views/admin-edit.php:24 includes/views/admin-main.php:13
+#: includes/views/admin-main.php:21 includes/views/admin-main.php:53
+msgid "ID"
+msgstr "ID"
+
+#: includes/views/admin-edit.php:20 includes/views/admin-main.php:49
+msgid "A recognizable name for your new sidebar widget area"
+msgstr "Un nombre descriptivo para el área de widgets de tu nueva barra lateral"
+
+#: includes/views/admin-edit.php:18 includes/views/admin-main.php:12
+#: includes/views/admin-main.php:20 includes/views/admin-main.php:47
+msgid "Name"
+msgstr "Nom"
+
+#: includes/views/admin-edit.php:10
+msgid "Edit Sidebar"
+msgstr "Editar barra lateral"
+
+#: includes/views/admin-edit.php:7
+msgid "Nice try, partner. But that sidebar doesn't exist. Click back and try again."
+msgstr "Buen intento, pero esa barra lateral no existe. Vuelve atrás y prueba de nuevo."
+
+#: includes/views/term-edit-sidebar-form.php:38
+msgid "Secondary Sidebar"
+msgstr "Barra lateral secundaria"
+
+#: includes/views/term-edit-sidebar-form.php:23
+msgid "Primary Sidebar"
+msgstr "Barra lateral primaria"
+
+#: includes/views/term-edit-sidebar-form.php:3
+msgid "Sidebar Options"
+msgstr "Opciones de la barra lateral"
+
+#: includes/views/entry-metabox-content.php:10
+#: includes/views/entry-metabox-content.php:24
+#: includes/views/entry-metabox-content.php:38
+#: includes/views/term-edit-sidebar-form.php:11
+#: includes/views/term-edit-sidebar-form.php:26
+#: includes/views/term-edit-sidebar-form.php:41
+msgid "Default"
+msgstr "Por defecto"
+
+#: includes/class-genesis-simple-sidebars-entry.php:22
+msgid "Sidebar Selection"
+msgstr "Selección de la barra lateral"
+
+#: includes/class-genesis-simple-sidebars-admin.php:362
+msgid "Oops! Something went wrong. Try again."
+msgstr "¡Vaya! Algo salió mal. Inténtalo de nuevo"
+
+#: includes/class-genesis-simple-sidebars-admin.php:359
+msgid "Oops! You are trying to delete a sidebar that does not exist, or cannot be deleted"
+msgstr "¡Vaya! has intentado borrar una barra lateral que no existe o que no puede ser borrada."
+
+#: includes/class-genesis-simple-sidebars-admin.php:356
+msgid "Oops! You are trying to edit a sidebar that does not exist, or is not editable"
+msgstr "¡Vaya! Has intentado editar una barra lateral que no existe o que no puede ser borrada."
+
+#: includes/class-genesis-simple-sidebars-admin.php:353
+msgid "Oops! That sidebar ID already exists"
+msgstr "¡Vaya! Este identificador de barra lateral ya existe"
+
+#: includes/class-genesis-simple-sidebars-admin.php:350
+msgid "Oops! Please choose a valid Name for this sidebar"
+msgstr "¡Vaya! Elige un nombre válido para esta barra lateral"
+
+#: includes/class-genesis-simple-sidebars-admin.php:202
+msgid "Sidebar successfully deleted."
+msgstr "Barra lateral eliminada con éxito."
+
+#: includes/class-genesis-simple-sidebars-admin.php:197
+msgid "Sidebar successfully edited!"
+msgstr "¡Barra lateral editada con éxito!"
+
+#: includes/class-genesis-simple-sidebars-admin.php:192
+msgid "New sidebar successfully created!"
+msgstr "¡Nueva barra lateral creada con éxito!"
+
+#: includes/class-genesis-simple-sidebars-admin.php:125
+msgid "Delete"
+msgstr "Borrar"
+
+#: includes/class-genesis-simple-sidebars-admin.php:124
+msgid "Edit"
+msgstr "Editar"
+
+#: includes/class-genesis-simple-sidebars-admin.php:52
+msgid "Simple Sidebars"
+msgstr "Simple Sidebars"
+
+#: includes/class-genesis-simple-sidebars-admin.php:51
+#: includes/views/admin-main.php:1
+msgid "Genesis - Simple Sidebars"
+msgstr "Genesis - Simple Sidebars"
