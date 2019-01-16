@@ -74,7 +74,8 @@
                 var data = {
                     action: 'aws_action',
                     keyword : searchFor,
-                    page: 0
+                    page: 0,
+                    lang: d.lang
                 };
 
                 requests.push(
@@ -161,8 +162,14 @@
                         }
 
                         html += '<span class="aws_result_content">';
-                        html += '<span class="aws_result_title">' + result.title + '</span>';
-                        
+
+                        html += '<span class="aws_result_title">';
+                            if ( result.featured ) {
+                                html += '<span class="aws_result_featured" title="Featured"><svg version="1.1" viewBox="0 0 20 21" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill-rule="evenodd" stroke="none" stroke-width="1"><g transform="translate(-296.000000, -422.000000)"><g transform="translate(296.000000, 422.500000)"><path d="M10,15.273 L16.18,19 L14.545,11.971 L20,7.244 L12.809,6.627 L10,0 L7.191,6.627 L0,7.244 L5.455,11.971 L3.82,19 L10,15.273 Z"/></g></g></g></svg></span>';
+                            }
+                            html += result.title;
+                        html += '</span>';
+
                         if ( result.stock_status ) {
                             var statusClass = result.stock_status.status ? 'in' : 'out';
                             html += '<span class="aws_result_stock ' + statusClass + '">';
@@ -318,6 +325,7 @@
         var self           = $(this),
             $searchForm    = self.find('.aws-search-form'),
             $searchField   = self.find('.aws-search-field'),
+            $searchButton  = self.find('.aws-search-btn'),
             haveResults    = false,
             requests       = Array(),
             searchFor      = '',
@@ -339,6 +347,7 @@
 
         self.data( pluginPfx, {
             minChars  : ( self.data('min-chars')   !== undefined ) ? self.data('min-chars') : 1,
+            lang : ( self.data('lang') !== undefined ) ? self.data('lang') : false,
             showLoader: ( self.data('show-loader') !== undefined ) ? self.data('show-loader') : true,
             showMore: ( self.data('show-more') !== undefined ) ? self.data('show-more') : true,
             showPage: ( self.data('show-page') !== undefined ) ? self.data('show-page') : true,
@@ -358,7 +367,7 @@
         }
 
 
-        $searchField.on( 'keyup', function(e) {
+        $searchField.on( 'keyup input', function(e) {
             if ( e.keyCode != 40 && e.keyCode != 38 ) {
                 methods.onKeyup(e);
             }
@@ -373,6 +382,13 @@
         $searchForm.on( 'keypress', function(e) {
             if ( e.keyCode == 13 && ! d.showPage ) {
                 e.preventDefault();
+            }
+        });
+
+
+        $searchButton.on( 'click', function (e) {
+            if ( d.showPage ) {
+                $searchForm.submit();
             }
         });
 

@@ -203,6 +203,7 @@ if ( ! class_exists( 'AWS_Table' ) ) :
                       type VARCHAR(50) NOT NULL DEFAULT 0,
                       count BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
                       in_stock INT(11) NOT NULL DEFAULT 0,
+                      on_sale INT(11) NOT NULL DEFAULT 0,
                       term_id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
                       visibility VARCHAR(20) NOT NULL DEFAULT 0,
                       lang VARCHAR(20) NOT NULL DEFAULT 0
@@ -249,12 +250,14 @@ if ( ! class_exists( 'AWS_Table' ) ) :
 
 
                 $data['in_stock'] = method_exists( $product, 'get_stock_status' ) ? ( ( $product->get_stock_status() === 'outofstock' ) ? 0 : 1 ) : ( method_exists( $product, 'is_in_stock' ) ? $product->is_in_stock() : 1 );
+                $data['on_sale'] = $product->is_on_sale();
                 $data['visibility'] = method_exists( $product, 'get_catalog_visibility' ) ? $product->get_catalog_visibility() : ( method_exists( $product, 'get_visibility' ) ? $product->get_visibility() : 'visible' );
                 $data['lang'] = $lang ? $lang : '';
 
                 $sku = $product->get_sku();
 
                 $title = apply_filters( 'the_title', get_the_title( $data['id'] ), $data['id'] );
+
                 $content = apply_filters( 'the_content', get_post_field( 'post_content', $data['id'] ), $data['id'] );
                 $excerpt = get_post_field( 'post_excerpt', $data['id'] );
                 $cat_array = $this->get_terms_array( $data['id'], 'product_cat' );
@@ -386,6 +389,7 @@ if ( ! class_exists( 'AWS_Table' ) ) :
                                     $translated_post_data = array();
                                     $translated_post_data['id'] = $translated_post->ID;
                                     $translated_post_data['in_stock'] = $data['in_stock'];
+                                    $translated_post_data['on_sale'] = $data['on_sale'];
                                     $translated_post_data['visibility'] = $data['visibility'];
                                     $translated_post_data['lang'] = $lang_obj->language_code;
                                     $translated_post_data['terms'] = array();
@@ -402,7 +406,7 @@ if ( ! class_exists( 'AWS_Table' ) ) :
                                     $translated_post_data['terms']['excerpt'] = $this->extract_terms( $translated_excerpt );
                                     $translated_post_data['terms']['sku'] = $this->extract_terms( $sku );
 
-
+                                    
                                     //Insert translated product data into table
                                     $this->insert_into_table( $translated_post_data );
 
@@ -434,6 +438,7 @@ if ( ! class_exists( 'AWS_Table' ) ) :
                                     $translated_post_data = array();
                                     $translated_post_data['id'] = $data['id'];
                                     $translated_post_data['in_stock'] = $data['in_stock'];
+                                    $translated_post_data['on_sale'] = $data['on_sale'];
                                     $translated_post_data['visibility'] = $data['visibility'];
                                     $translated_post_data['lang'] = $current_lang;
                                     $translated_post_data['terms'] = array();
@@ -500,8 +505,8 @@ if ( ! class_exists( 'AWS_Table' ) ) :
                     }
 
                     $value = $wpdb->prepare(
-                        "(%d, %s, %s, %s, %d, %d, %d, %s, %s)",
-                        $data['id'], $term, $source, 'product', $count, $data['in_stock'], $term_id, $data['visibility'], $data['lang']
+                        "(%d, %s, %s, %s, %d, %d, %d, %d, %s, %s)",
+                        $data['id'], $term, $source, 'product', $count, $data['in_stock'], $data['on_sale'], $term_id, $data['visibility'], $data['lang']
                     );
 
                     $values[] = $value;
@@ -516,7 +521,7 @@ if ( ! class_exists( 'AWS_Table' ) ) :
                 $values = implode( ', ', $values );
 
                 $query  = "INSERT IGNORE INTO {$this->table_name}
-				              (`id`, `term`, `term_source`, `type`, `count`, `in_stock`, `term_id`, `visibility`, `lang`)
+				              (`id`, `term`, `term_source`, `type`, `count`, `in_stock`, `on_sale`, `term_id`, `visibility`, `lang`)
 				              VALUES $values
                     ";
 
@@ -660,13 +665,10 @@ if ( ! class_exists( 'AWS_Table' ) ) :
          */
         private function extract_terms( $str ) {
 
-            $str = AWS_Helpers::html2txt( $str );
-
             // Avoid single A-Z.
             //$str = preg_replace( '/\b\w{1}\b/i', " ", $str );
-            
-            $special_cars = AWS_Helpers::get_special_chars();
-            $str = str_replace( $special_cars, "", $str );
+
+            $str = AWS_Helpers::normalize_string( $str );
 
             $str = str_replace( array(
                 "Ă‹â€ˇ",
@@ -693,15 +695,6 @@ if ( ! class_exists( 'AWS_Table' ) ) :
 
             $str = str_replace( 'Ăź', 'ss', $str );
 
-            //$str = preg_replace( '/[[:punct:]]+/u', ' ', $str );
-            $str = preg_replace( '/[[:space:]]+/', ' ', $str );
-
-            // Most objects except unicode characters
-            $str = preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F\x80-\x9F]/u', '', $str );
-
-            // Line feeds, carriage returns, tabs
-            $str = preg_replace( '/[\x00-\x1F\x80-\x9F]/u', '', $str );
-
             if ( function_exists( 'mb_strtolower' ) ) {
                 $str = mb_strtolower( $str );
             } else {
@@ -710,7 +703,7 @@ if ( ! class_exists( 'AWS_Table' ) ) :
 
             $str = preg_replace( '/^[a-z]$/i', "", $str );
 
-            $str = trim( preg_replace( '/\s+/', ' ', $str ) );
+            $str = preg_replace( '/\s+/', ' ', $str );
 
             /**
              * Filters extracted string
@@ -733,7 +726,29 @@ if ( ! class_exists( 'AWS_Table' ) ) :
              */
             $str_array = apply_filters( 'aws_extracted_terms', $str_array );
 
-            return $str_array;
+            $str_new_array = array();
+
+            // Remove e, es, ies from the end of the string
+            if ( ! empty( $str_array ) && $str_array ) {
+                foreach( $str_array as $str_item_term => $str_item_num ) {
+                    if ( $str_item_term  ) {
+                        $new_array_key = preg_replace( '/(s|es|ies)$/i', '', $str_item_term );
+
+                        if ( $new_array_key ) {
+                            if ( ! isset( $str_new_array[$new_array_key] ) ) {
+                                $str_new_array[$new_array_key] = $str_item_num;
+                            }
+                        } else {
+                            if ( ! isset( $str_new_array[$str_item_term] ) ) {
+                                $str_new_array[$str_item_term] = $str_item_num;
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return $str_new_array;
 
         }
 
@@ -744,7 +759,7 @@ if ( ! class_exists( 'AWS_Table' ) ) :
          */
         private function get_terms_array( $id, $taxonomy ) {
 
-            $terms = get_the_terms( $id, $taxonomy );
+            $terms = wp_get_object_terms( $id, $taxonomy );
 
             if ( is_wp_error( $terms ) ) {
                 return '';

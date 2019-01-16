@@ -34,5 +34,5 @@ require_once dirname( __FILE__ ) .
 if ( defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	global $wpdb, $wp_filesystem;
 
-	// delete any options or other data stored in the database here
+	// Delete any options or other data stored in the database here
 }

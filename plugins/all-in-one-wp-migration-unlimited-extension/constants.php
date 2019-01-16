@@ -26,7 +26,7 @@
 // ==================
 // = Plugin Version =
 // ==================
-define( 'AI1WMUE_VERSION', '2.18' );
+define( 'AI1WMUE_VERSION', '2.22' );
 
 // ===============
 // = Plugin Name =
@@ -47,6 +47,11 @@ define( 'AI1WMUE_CONTROLLER_PATH', AI1WMUE_LIB_PATH . DIRECTORY_SEPARATOR . 'con
 // = View Path =
 // =============
 define( 'AI1WMUE_TEMPLATES_PATH', AI1WMUE_LIB_PATH . DIRECTORY_SEPARATOR . 'view' );
+
+// ===============
+// = Vendor Path =
+// ===============
+define( 'AI1WMUE_VENDOR_PATH', AI1WMUE_LIB_PATH . DIRECTORY_SEPARATOR . 'vendor' );
 
 // =================
 // = Max File Size =

@@ -3,12 +3,12 @@
 /*
 Plugin Name: Advanced Woo Search
 Description: Advance ajax WooCommerce product search.
-Version: 1.50
+Version: 1.57
 Author: ILLID
 Author URI: https://advanced-woo-search.com/
 Text Domain: aws
 WC requires at least: 3.0.0
-WC tested up to: 3.4.0
+WC tested up to: 3.5.0
 */
 
 
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'AWS_VERSION', '1.50' );
+define( 'AWS_VERSION', '1.57' );
 
 
 define( 'AWS_DIR', dirname( __FILE__ ) );
@@ -90,8 +90,8 @@ final class AWS_Main {
         add_filter( 'wcml_multi_currency_ajax_actions', array( $this, 'add_wpml_ajax_actions' ) );
 
         if ( $this->get_settings('seamless') === 'true' ) {
-            add_filter( 'get_search_form', array( $this, 'markup' ) );
-            add_filter( 'get_product_search_form', array( $this, 'markup' ) );
+            add_filter( 'get_search_form', array( $this, 'markup' ), 999999 );
+            add_filter( 'get_product_search_form', array( $this, 'markup' ), 999999 );
         }
 
     }
@@ -165,7 +165,7 @@ final class AWS_Main {
 			$setting_link = '<a href="' . admin_url('admin.php?page=aws-options') . '">'.__( 'Settings', 'aws' ).'</a>';
 			array_unshift( $links, $setting_link );
 
-            $premium_link = '<a href="https://advanced-woo-search.com/" target="_blank">'.__( 'Get Premium', 'aws' ).'</a>';
+            $premium_link = '<a href="https://advanced-woo-search.com/?utm_source=plugin&utm_medium=settings-link&utm_campaign=aws-pro-plugin" target="_blank">'.__( 'Get Premium', 'aws' ).'</a>';
             array_unshift( $links, $premium_link );
 		}
 

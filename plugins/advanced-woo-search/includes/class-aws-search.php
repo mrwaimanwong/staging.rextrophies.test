@@ -17,6 +17,11 @@ if ( ! class_exists( 'AWS_Search' ) ) :
         private $data = array();
 
         /**
+         * @var AWS_Search Current language $lang
+         */
+        private $lang = 0;
+
+        /**
          * Return a singleton instance of the current class
          *
          * @return object
@@ -71,15 +76,20 @@ if ( ! class_exists( 'AWS_Search' ) ) :
 
             global $wpdb;
 
+            $this->lang = isset( $_REQUEST['lang'] ) ? $_REQUEST['lang'] : '';
+
+            if ( $this->lang ) {
+                do_action( 'wpml_switch_language', $this->lang );
+            }
+
             $cache = AWS()->get_settings( 'cache' );
-            $special_chars = AWS_Helpers::get_special_chars();
 
             $s = $keyword ? esc_attr( $keyword ) : esc_attr( $_POST['keyword'] );
             $s = htmlspecialchars_decode( $s );
-            $s = stripslashes( $s );
-            $s = str_replace( array( "\r", "\n" ), '', $s );
-            $s = str_replace( $special_chars, '', $s );
-            $s = trim( $s );
+
+            $s = AWS_Helpers::normalize_string( $s );
+
+
             //$s = strtolower( $s );
 
             $cache_option_name = '';
@@ -135,6 +145,18 @@ if ( ! class_exists( 'AWS_Search' ) ) :
 
 
             $posts_ids = $this->query_index_table();
+
+            /**
+             * Filters array of products ids
+             *
+             * @since 1.53
+             *
+             * @param array $posts_ids Array of products ids
+             * @param string $s Search query
+             */
+            $posts_ids = apply_filters( 'aws_search_results_products_ids', $posts_ids, $s );
+
+
             $products_array = $this->get_products( $posts_ids );
 
             /**
@@ -254,8 +276,15 @@ if ( ! class_exists( 'AWS_Search' ) ) :
                 $relevance_title_like   = 40 + 2 * $search_term_len;
                 $relevance_content_like = 35 + 1 * $search_term_len;
 
-                $search_term_like = preg_replace( '/(s|es|ies)$/i', '', $search_term );
-                $like = '%' . $wpdb->esc_like( $search_term_like ) . '%';
+
+                $search_term_norm = preg_replace( '/(s|es|ies)$/i', '', $search_term );
+
+                if ( $search_term_norm ) {
+                    $search_term = $search_term_norm;
+                }
+
+                $like = '%' . $wpdb->esc_like( $search_term ) . '%';
+
 
                 if ( $search_term_len > 1 ) {
                     $search_array[] = $wpdb->prepare( '( term LIKE %s )', $like );
@@ -314,44 +343,30 @@ if ( ! class_exists( 'AWS_Search' ) ) :
                 $source_array[] = "term_source = '{$search_in_term}'";
             }
 
-            $query['relevance'] .= sprintf( ' (SUM( %s )) ', implode( ' + ', $new_relevance_array ) );
-            $query['search'] .= sprintf( ' AND ( %s )', implode( ' OR ', $search_array ) );
-            $query['source'] .= sprintf( ' AND ( %s )', implode( ' OR ', $source_array ) );
+            $query['relevance'] = sprintf( ' (SUM( %s )) ', implode( ' + ', $new_relevance_array ) );
+            $query['search'] = sprintf( ' AND ( %s )', implode( ' OR ', $search_array ) );
+            $query['source'] = sprintf( ' AND ( %s )', implode( ' OR ', $source_array ) );
 
 
             if ( $reindex_version && version_compare( $reindex_version, '1.16', '>=' ) ) {
 
                 if ( $outofstock !== 'true' ) {
-                    $query['stock'] .= " AND in_stock = 1";
+                    $query['stock'] = " AND in_stock = 1";
                 }
 
-                $query['visibility'] .= " AND NOT visibility LIKE '%hidden%'";
+                $query['visibility'] = " AND NOT visibility LIKE '%hidden%'";
 
             }
 
 
-            if ( ( defined( 'ICL_SITEPRESS_VERSION' ) || function_exists( 'pll_current_language' ) ) && $reindex_version && version_compare( $reindex_version, '1.20', '>=' ) ) {
+            if ( $this->lang ) {
+                $current_lang = $this->lang;
+            } else {
+                $current_lang = AWS_Helpers::get_lang();
+            }
 
-                $current_lang = false;
-
-                if ( has_filter('wpml_current_language') ) {
-                    $current_lang = apply_filters( 'wpml_current_language', NULL );
-                } elseif ( function_exists( 'pll_current_language' ) ) {
-                    $current_lang = pll_current_language();
-                }
-
-                if ( $current_lang ) {
-                    $query['lang'] .= $wpdb->prepare( " AND ( lang LIKE %s OR lang = '' )", $current_lang );
-                }
-
-            } elseif( function_exists( 'qtranxf_getLanguage' ) ) {
-
-                $current_lang = qtranxf_getLanguage();
-
-                if ( $current_lang ) {
-                    $query['lang'] .= $wpdb->prepare( " AND ( lang LIKE %s OR lang = '' )", $current_lang );
-                }
-
+            if ( $current_lang && $reindex_version && version_compare( $reindex_version, '1.20', '>=' ) ) {
+                $query['lang'] = $wpdb->prepare( " AND ( lang LIKE %s OR lang = '' )", $current_lang );
             }
 
 
@@ -372,6 +387,7 @@ if ( ! class_exists( 'AWS_Search' ) ) :
                     relevance DESC
 				LIMIT 0, {$results_num}
 		    ";
+
 
             $posts_ids = $this->get_posts_ids( $sql );
 
@@ -424,6 +440,7 @@ if ( ! class_exists( 'AWS_Search' ) ) :
                 $show_image        = AWS()->get_settings( 'show_image' );
                 $show_sku          = AWS()->get_settings( 'show_sku' );
                 $show_stock_status = AWS()->get_settings( 'show_stock' );
+                $show_featured     = AWS()->get_settings( 'show_featured' );
 
 
                 foreach ( $posts_ids as $post_id ) {
@@ -445,6 +462,7 @@ if ( ! class_exists( 'AWS_Search' ) ) :
                     $image        = '';
                     $sku          = '';
                     $stock_status = '';
+                    $featured     = '';
 
 
                     if ( $show_excerpt === 'true' ) {
@@ -488,7 +506,11 @@ if ( ! class_exists( 'AWS_Search' ) ) :
                     if ( $show_sku === 'true' ) {
                         $sku = $product->get_sku();
                     }
-                    
+
+                    if ( $show_featured === 'true' ) {
+                        $featured = $product->is_featured();
+                    }
+
                     if ( $show_stock_status === 'true' ) {
                         if ( $product->is_in_stock() ) {
                             $stock_status = array(
@@ -520,6 +542,7 @@ if ( ! class_exists( 'AWS_Search' ) ) :
                         'on_sale'      => $on_sale,
                         'sku'          => $sku,
                         'stock_status' => $stock_status,
+                        'featured'     => $featured,
                         'f_price'      => $f_price,
                         'f_rating'     => $f_rating,
                         'f_reviews'    => $f_reviews,

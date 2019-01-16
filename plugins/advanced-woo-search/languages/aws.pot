@@ -247,6 +247,15 @@ msgstr ""
 msgid "Only search results page ( no ajax search results )"
 msgstr ""
 
+msgid "Form Styling"
+msgstr ""
+
+msgid "Choose search form layout"
+msgstr ""
+
+msgid "Filter button will be visible only if you have more than one active filter for current search form instance."
+msgstr ""
+
 #: includes/options.php:49
 msgid "Show image"
 msgstr ""
@@ -341,6 +350,12 @@ msgid "Show stock status"
 msgstr ""
 
 msgid "Show stock status for every product in search results."
+msgstr ""
+
+msgid "Show featured icon"
+msgstr ""
+
+msgid "Show or not star icon for featured products."
 msgstr ""
 
 #: includes/options.php:167

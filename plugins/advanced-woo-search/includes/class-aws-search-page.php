@@ -89,13 +89,11 @@ if ( ! class_exists( 'AWS_Search_Page' ) ) :
             $paged  = $query->query_vars['paged'] ? $query->query_vars['paged'] : 1;
             $offset = ( $paged > 1 ) ? $paged * $posts_per_page - $posts_per_page : 0;
 
-
-            if ( $query->query && isset( $query->query['orderby'] ) ) {
-                $order_by = $query->query['orderby'];
+            if ( $query->query && ( isset( $query->query['orderby'] ) || isset( $query->query_vars['orderby'] ) ) ) {
 
                 if ( isset( $posts_array['products'] ) && ! empty( $posts_array['products'] ) ) {
 
-                    $posts_array['products'] = AWS()->order( $posts_array['products'], $order_by );
+                    $posts_array['products'] = AWS()->order( $posts_array['products'], $query );
 
                 }
 

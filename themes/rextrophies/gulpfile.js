@@ -38,7 +38,7 @@ gulp.task('images', function() {
 // JavaScript processing
 gulp.task('js', function() {
 
-  var jsbuild = gulp.src([folder.src + 'js/**/*'])
+  var jsbuild = gulp.src([folder.src + 'js/vendor/*', folder.src + 'js/init.js'])
   .pipe(plugins.deporder())
   .pipe(plugins.concat('scripts.js'))
   // .pipe(plugins.stripDebug())

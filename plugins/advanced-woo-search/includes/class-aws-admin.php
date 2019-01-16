@@ -81,7 +81,7 @@ class AWS_Admin {
 
         }
 
-        $tabs_html .= '<a href="https://advanced-woo-search.com/" class="nav-tab premium-tab" target="_blank">' . __( 'Get Premium', 'aws' ) . '</a>';
+        $tabs_html .= '<a href="https://advanced-woo-search.com/?utm_source=plugin&utm_medium=settings-tab&utm_campaign=aws-pro-plugin" class="nav-tab premium-tab" target="_blank">' . __( 'Get Premium', 'aws' ) . '</a>';
 
         $tabs_html = '<h2 class="nav-tab-wrapper woo-nav-tab-wrapper">'.$tabs_html.'</h2>';
 
@@ -281,6 +281,23 @@ class AWS_Admin {
                                 </p>
                             <?php endif; ?>
 
+                        </td>
+                    </tr>
+                    <?php break;
+
+                case 'radio-image': ?>
+                    <tr valign="top">
+                        <th scope="row"><?php echo $value['name']; ?></th>
+                        <td>
+                            <ul class="img-select">
+                                <?php foreach ( $value['choices'] as $val => $img ) { ?>
+                                    <li class="option">
+                                        <input class="radio" type="radio" name="<?php echo $value['id']; ?>" id="<?php echo $value['id'].$val; ?>" value="<?php echo $val; ?>" <?php checked( $plugin_options[ $value['id'] ], $val ); ?>>
+                                        <span class="ico" style="background: url('<?php echo AWS_URL . '/assets/img/' . $img; ?>') no-repeat 50% 50%;"></span>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                            <br><span class="description"><?php echo $value['desc']; ?></span>
                         </td>
                     </tr>
                     <?php break;

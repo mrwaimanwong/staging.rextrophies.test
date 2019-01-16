@@ -1228,6 +1228,10 @@ img.alignright,
   margin-right: 3px;
 }
 
+.nav-primary .menu>.menu-item:last-child a {
+	@include font_size(2.4);
+}
+
 /*   Homepage Hero
 ---------------------------------------------------------------------------------------------------- */
 .hero-container {
@@ -1899,6 +1903,14 @@ p.entry-meta {
 
 /* Contact Form 7 wpcf7
 -----------------------------------------------------------------------------------------------------*/
+.grecaptcha-badge {
+	opacity:0
+}
+
+.grecaptcha-notice {
+	@include font-size(1);
+	color: #999;
+}
 .wpcf7 {
 
 	.wpcf7-text, .wpcf7-textarea
@@ -2219,6 +2231,7 @@ select::-ms-expand {
 		@include font_size(1.4);
 		font-weight: 400;
 		color: #999;
+		display: none;
 	}
 }
 .woocommerce div.product .woocommerce-tabs ul.tabs li a {

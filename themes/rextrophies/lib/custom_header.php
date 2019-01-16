@@ -57,3 +57,20 @@ function ww_custom_header()
 		</div>
 	</header>';
 }
+
+add_filter( 'wp_nav_menu_items', 'ww_custom_menu_item', 10, 2 );
+
+function ww_custom_menu_item ( $items, $args ) {
+
+  if ($args->theme_location == 'Primary' || $args->theme_location == 'Responsive') {
+
+    $items .= '<li class="menu-item">'.add_accoutn_link().'</li>';
+
+  }
+  return $items;
+}
+
+function add_accoutn_link() {
+	$social = '<a href="/my-account/" class="ww-account-link" title="My Account"><i class="fa fa-user-circle"></i></a>';
+	return $social;
+}

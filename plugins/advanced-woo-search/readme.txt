@@ -3,8 +3,8 @@ Contributors: Mihail Barinov
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GSE37FC4Y7CEY
 Tags: widget, plugin, woocommerce, search, product search, woocommerce search, ajax search, live search, custom search, ajax, shortcode, better search, relevance search, relevant search, search by sku, search plugin, shop, store, wordpress search, wp ajax search, wp search, wp search plugin, sidebar, ecommerce, merketing, products, category search, instant-search, search highlight, woocommerce advanced search, woocommerce live search, WooCommerce Plugin, woocommerce product search
 Requires at least: 4.0
-Tested up to: 4.9.8
-Stable tag: 1.50
+Tested up to: 5.0
+Stable tag: 1.57
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,7 +30,9 @@ Advanced Woo Search - powerful live search plugin for WooCommerce. Just start ty
 * Support for your current **search page**. Plugin search results will be integrated to your current page layout.
 * Automatically synchronize all products data. No need to re-index all content manually after avery change.
 * Plurals support
+* Diacritical marks support
 * Google Analytics support
+* Seamless integration option for easy replacing your current search form
 * **WPML**, **Polylang**, **WooCommerce Multilingual**, **qTranslate** support
 * **WPML multi-currency** support
 * Custom Product Tabs for WooCommerce plugin support
@@ -38,7 +40,9 @@ Advanced Woo Search - powerful live search plugin for WooCommerce. Just start ty
 
 = Premium Features =
 
-[Premium Version Demo](https://advanced-woo-search.com/)
+Additional features available only in PRO plugin version.
+
+[Premium Version Demo](https://advanced-woo-search.com/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo)
 	
 * Search **results layouts**
 * Search **form layouts**
@@ -48,15 +52,16 @@ Advanced Woo Search - powerful live search plugin for WooCommerce. Just start ty
 * Product **custom taxonomies** search
 * Product **custom fields** search
 * **Advanced settings page** with lot of options
-* **Exclude/include** spicific products by its ids, categories or tags from search results
+* **Exclude/include** spicific products by its ids, taxonomies or attributes from search results
 * Ability to specify **source of image** for search results: featured image, gallery, product content, product short description or set default image if there is no other images
 * **Visibility/stock status option** - choose what catalog visibility and stock status must be for product to displayed in search results
 * Show product **categories** and **variations** in search results
 * AND or OR search logic
+* **Add to cart** button in search results
 * Support for [WooCommerce Brands plugin](https://woocommerce.com/products/brands/)
 * Support for Advanced Custom Fields plugin
 
-[Features list](https://advanced-woo-search.com/features/)
+[Features list](https://advanced-woo-search.com/features/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo)
 
 == Installation ==
 
@@ -68,7 +73,7 @@ Advanced Woo Search - powerful live search plugin for WooCommerce. Just start ty
 
 = Knowledge Base =
 
-You can find solutions and answers at the [Advanced Woo Search guide](https://advanced-woo-search.com/guide/).
+You can find solutions and answers at the [Advanced Woo Search guide](https://advanced-woo-search.com/guide/?utm_source=wp-repo&utm_medium=listing&utm_campaign=aws-repo).
 
 = How to insert search form? =
 
@@ -95,6 +100,38 @@ Yep. This plugin is always compatible with the latest version of Woocommerce?
 4. Plugin settings page. Search results options
 
 == Changelog ==
+
+= 1.57 =
+* Update search query string
+* Fix style for search icon
+* Fix search field style
+* Fix clear button style
+
+= 1.56 =
+* Update stopwords list
+* Add search box layout options
+
+= 1.55 =
+* Update search behavior on text paste
+
+= 1.54 =
+* Update plugin index table
+* Update WooCommerce version support
+
+= 1.53 =
+* Fix bug with search results page ordering
+* Add svg loading icon
+* Mark featured products in search results
+* Add aws_search_results_products_ids filter
+
+= 1.52 =
+* Fix terms translation for multilingual plugins
+* Update special chars filter
+* Add diacritic chars filter
+
+= 1.51 =
+* Update seamless integration filter hook
+* Fix WPML language select
 
 = 1.50 =
 * Fix bug with cyrillic letters search
